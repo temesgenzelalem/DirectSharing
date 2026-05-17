@@ -7,7 +7,7 @@ workflows:
     instance_type: mac_mini_m1
 
     environment:
-      flutter: 3.19.6
+      flutter: stable
       java: 17
 
     scripts:
@@ -59,7 +59,7 @@ workflows:
     instance_type: mac_mini_m1
 
     environment:
-      flutter: 3.19.6
+      flutter: stable
       xcode: latest
       cocoapods: default
       # Add your Apple credentials in Codemagic UI:
