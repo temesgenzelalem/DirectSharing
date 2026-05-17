@@ -25,11 +25,13 @@ class TransferService extends ChangeNotifier {
 
   void onPayloadReceived(String endpointId, Payload payload) {
     if (payload.type == PayloadType.FILE) {
+      // ignore: deprecated_member_use
+      final fileLocation = payload.uri ?? payload.filePath;
       final transfer = FileTransfer(
         id: payload.id.toString(),
-        fileName: p.basename(payload.filePath ?? 'received_file'),
+        fileName: p.basename(fileLocation ?? 'received_file'),
         fileSize: 0,
-        filePath: payload.filePath ?? '',
+        filePath: fileLocation ?? '',
         peerName: endpointId,
         peerId: endpointId,
         direction: TransferDirection.receiving,

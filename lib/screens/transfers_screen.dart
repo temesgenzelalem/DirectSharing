@@ -49,12 +49,12 @@ class _TransfersScreenState extends State<TransfersScreen> {
       ),
       body: transfers.isEmpty
           ? Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Icon(Icons.swap_horiz, size: 64, color: Colors.white.withOpacity(0.1)),
+              Icon(Icons.swap_horiz, size: 64, color: const Color.fromRGBO(255, 255, 255, 0.1)),
               const SizedBox(height: 16),
-              Text('No transfers yet', style: TextStyle(color: Colors.white.withOpacity(0.4), fontSize: 16)),
+              Text('No transfers yet', style: TextStyle(color: const Color.fromRGBO(255, 255, 255, 0.4), fontSize: 16)),
               const SizedBox(height: 8),
               Text('Send or receive files to see them here',
-                  style: TextStyle(color: Colors.white.withOpacity(0.25), fontSize: 12)),
+                  style: TextStyle(color: const Color.fromRGBO(255, 255, 255, 0.25), fontSize: 12)),
             ]))
           : ListView(
               padding: const EdgeInsets.all(16),
@@ -117,7 +117,7 @@ class _TransferCard extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: const Color(0xFF141C2E),
-        border: Border.all(color: isActive ? _statusColor.withOpacity(0.4) : const Color(0xFF1E2840)),
+        border: Border.all(color: isActive ? _statusColor.withAlpha((0.4 * 255).round()) : const Color(0xFF1E2840)),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -125,7 +125,7 @@ class _TransferCard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: FileUtils.getFileColor(transfer.fileName).withOpacity(0.15),
+              color: FileUtils.getFileColor(transfer.fileName).withAlpha((0.15 * 255).round()),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Icon(FileUtils.getFileIcon(transfer.fileName),
@@ -150,7 +150,7 @@ class _TransferCard extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
               decoration: BoxDecoration(
-                  color: _statusColor.withOpacity(0.15), borderRadius: BorderRadius.circular(8)),
+                  color: _statusColor.withAlpha((0.15 * 255).round()), borderRadius: BorderRadius.circular(8)),
               child: Text(_statusText,
                   style: TextStyle(color: _statusColor, fontSize: 10, fontWeight: FontWeight.w600)),
             ),
@@ -186,7 +186,7 @@ class _TransferCard extends StatelessWidget {
             const Icon(Icons.check_circle_rounded, color: Color(0xFF00C853), size: 14),
             const SizedBox(width: 6),
             Text('Saved to DirectShare folder',
-                style: TextStyle(color: Colors.white.withOpacity(0.4), fontSize: 11)),
+                style: TextStyle(color: const Color.fromRGBO(255, 255, 255, 0.4), fontSize: 11)),
             const Spacer(),
             TextButton(
               onPressed: () {},
