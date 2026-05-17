@@ -20,4 +20,5 @@ build/
 **/*.iml
 .idea/
 .vscode/
+android/.gradle/
 .DS_Store
