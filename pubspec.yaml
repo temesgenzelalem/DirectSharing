@@ -14,13 +14,13 @@ dependencies:
   nearby_connections: ^4.0.0
 
   # File picking
-  file_picker: ^6.2.1
+  file_picker: ^11.0.2
 
   # Permissions
-  permission_handler: ^11.4.0
+  permission_handler: ^12.0.1
 
   # Device info
-  device_info_plus: ^9.1.2
+  device_info_plus: ^13.1.0
 
   # Paths & storage
   path_provider: ^2.1.1
@@ -39,17 +39,17 @@ dependencies:
   percent_indicator: ^4.2.3
 
   # Network info
-  network_info_plus: ^4.1.0
+  network_info_plus: ^8.1.0
 
   # Utils
-  intl: ^0.18.1
-  mime: ^1.0.5
+  intl: ^0.20.2
+  mime: ^2.0.0
   cupertino_icons: ^1.0.6
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.2
+  flutter_lints: ^6.0.0
 
 flutter:
   uses-material-design: true
