@@ -13,36 +13,36 @@ workflows:
     scripts:
       - name: Set up local.properties
         script: |
-          echo "flutter.sdk=$HOME/programs/flutter" > "$CM_BUILD_DIR/directshare/android/local.properties"
-          echo "sdk.dir=$ANDROID_SDK_ROOT" >> "$CM_BUILD_DIR/directshare/android/local.properties"
+          echo "flutter.sdk=$HOME/programs/flutter" > "$CM_BUILD_DIR/android/local.properties"
+          echo "sdk.dir=$ANDROID_SDK_ROOT" >> "$CM_BUILD_DIR/android/local.properties"
 
       - name: Get Flutter packages
         script: |
-          cd "$CM_BUILD_DIR/directshare"
+          cd "$CM_BUILD_DIR"
           flutter pub get
 
       - name: Analyze
         script: |
-          cd "$CM_BUILD_DIR/directshare"
+          cd "$CM_BUILD_DIR"
           flutter analyze --no-fatal-infos || true
 
       - name: Build debug APK
         script: |
-          cd "$CM_BUILD_DIR/directshare"
+          cd "$CM_BUILD_DIR"
           flutter build apk --debug \
             --build-name=1.0.0 \
             --build-number=$BUILD_NUMBER
 
       - name: Build release APK
         script: |
-          cd "$CM_BUILD_DIR/directshare"
+          cd "$CM_BUILD_DIR"
           flutter build apk --release \
             --build-name=1.0.0 \
             --build-number=$BUILD_NUMBER
 
     artifacts:
-      - directshare/build/app/outputs/flutter-apk/app-debug.apk
-      - directshare/build/app/outputs/flutter-apk/app-release.apk
+      - build/app/outputs/flutter-apk/app-debug.apk
+      - build/app/outputs/flutter-apk/app-release.apk
 
     publishing:
       email:
@@ -71,28 +71,28 @@ workflows:
     scripts:
       - name: Get Flutter packages
         script: |
-          cd "$CM_BUILD_DIR/directshare"
+          cd "$CM_BUILD_DIR"
           flutter pub get
 
       - name: Install CocoaPods
         script: |
-          cd "$CM_BUILD_DIR/directshare/ios" && pod install
+          cd "$CM_BUILD_DIR/ios" && pod install
 
       - name: Analyze
         script: |
-          cd "$CM_BUILD_DIR/directshare"
+          cd "$CM_BUILD_DIR"
           flutter analyze --no-fatal-infos || true
 
       - name: Build iOS IPA
         script: |
-          cd "$CM_BUILD_DIR/directshare"
+          cd "$CM_BUILD_DIR"
           flutter build ipa \
             --build-name=1.0.0 \
             --build-number=$BUILD_NUMBER \
             --export-options-plist=/Users/builder/export_options.plist
 
     artifacts:
-      - directshare/build/ios/ipa/*.ipa
+      - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
 
     publishing:
