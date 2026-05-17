@@ -45,26 +45,31 @@ class TransferService extends ChangeNotifier {
     }
   }
 
-  void onPayloadTransferUpdate(String endpointId, PayloadTransferUpdate update) {
+  void onPayloadTransferUpdate(
+      String endpointId, PayloadTransferUpdate update) {
     final transfer = _payloadToTransfer[update.id];
     if (transfer == null) return;
     transfer.bytesTransferred = update.bytesTransferred;
-    final elapsed = DateTime.now().difference(transfer.startTime).inMilliseconds;
+    final elapsed =
+        DateTime.now().difference(transfer.startTime).inMilliseconds;
     if (elapsed > 0) {
       transfer.speedBytesPerSec = (update.bytesTransferred / elapsed) * 1000;
     }
-    if (update.status == PayloadTransferUpdate.Success) {
+    if (update.status == PayloadStatus.SUCCESS) {
       transfer.status = TransferStatus.completed;
       transfer.endTime = DateTime.now();
-      _db.updateTransferStatus(transfer.id, 'completed', transfer.bytesTransferred);
-    } else if (update.status == PayloadTransferUpdate.Failure) {
+      _db.updateTransferStatus(
+          transfer.id, 'completed', transfer.bytesTransferred);
+    } else if (update.status == PayloadStatus.FAILURE) {
       transfer.status = TransferStatus.failed;
-      _db.updateTransferStatus(transfer.id, 'failed', transfer.bytesTransferred);
+      _db.updateTransferStatus(
+          transfer.id, 'failed', transfer.bytesTransferred);
     }
     notifyListeners();
   }
 
-  Future<void> sendFile(String endpointId, String filePath, String peerName) async {
+  Future<void> sendFile(
+      String endpointId, String filePath, String peerName) async {
     final file = File(filePath);
     final fileName = p.basename(filePath);
     final fileSize = await file.length();
@@ -92,7 +97,8 @@ class TransferService extends ChangeNotifier {
     }
   }
 
-  Future<void> sendMessage(String endpointId, String peerName, String message) async {
+  Future<void> sendMessage(
+      String endpointId, String peerName, String message) async {
     _addMessage(endpointId, peerName, message, true);
     try {
       final bytes = Uint8List.fromList(message.codeUnits);
@@ -100,7 +106,8 @@ class TransferService extends ChangeNotifier {
     } catch (_) {}
   }
 
-  void _addMessage(String peerId, String peerName, String text, bool isMe) async {
+  void _addMessage(
+      String peerId, String peerName, String text, bool isMe) async {
     chats[peerId] ??= [];
     final msg = ChatMessage(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
@@ -127,10 +134,10 @@ class TransferService extends ChangeNotifier {
     await Directory(path).create(recursive: true);
     return path;
   }
-}
 
   Future<void> clearHistory() async {
     transfers.removeWhere((t) => t.status != TransferStatus.transferring);
     await _db.clearTransfers();
     notifyListeners();
   }
+}
