@@ -1,0 +1,57 @@
+name: directshare
+description: Fastest WiFi Direct File Sharing App - Share files up to 5GB offline
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # WiFi Direct P2P
+  nearby_connections: ^4.0.0
+
+  # File picking
+  file_picker: ^6.2.1
+
+  # Permissions
+  permission_handler: ^11.4.0
+
+  # Device info
+  device_info_plus: ^9.1.2
+
+  # Paths & storage
+  path_provider: ^2.1.1
+  path: ^1.8.3
+
+  # Open files
+  open_file: ^3.3.2
+
+  # State management
+  provider: ^6.1.1
+
+  # Local database
+  sqflite: ^2.3.0
+
+  # Progress indicators
+  percent_indicator: ^4.2.3
+
+  # Network info
+  network_info_plus: ^4.1.0
+
+  # Utils
+  intl: ^0.18.1
+  mime: ^1.0.5
+  cupertino_icons: ^1.0.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.2
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/
