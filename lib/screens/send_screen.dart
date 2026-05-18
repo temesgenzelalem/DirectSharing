@@ -16,7 +16,7 @@ class _SendScreenState extends State<SendScreen> {
   bool _isScanning = false;
 
   Future<void> _pickFiles() async {
-    final result = await FilePicker.platform.pickFiles(allowMultiple: true, withReadStream: true);
+    final result = await FilePicker.pickFiles(allowMultiple: true, withReadStream: true);
     if (result != null) setState(() => _selectedFiles = result.files);
   }
 

@@ -35,7 +35,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   Future<void> _sendFile() async {
-    final result = await FilePicker.platform.pickFiles(allowMultiple: true);
+    final result = await FilePicker.pickFiles(allowMultiple: true);
     if (result == null) return;
     final transfer = context.read<TransferService>();
     for (final file in result.files) {
