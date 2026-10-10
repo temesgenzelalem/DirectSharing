@@ -19,6 +19,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
 
 jobs:
   build:
@@ -65,8 +66,17 @@ jobs:
         run: flutter test || true
 
       - name: Build Android Release APK
+        id: build_apk
         run: |
-          flutter build apk --release --build-name=1.0.0 --build-number=${{ github.run_number }}
+          flutter build apk --release --build-name=1.0.0 --build-number=${{ github.run_number }} --verbose 2>&1 | tee build_output.log
+
+      - name: Report failure to GitHub Issue
+        if: failure()
+        run: |
+          tail -n 80 build_output.log > failure_snippet.txt
+          gh issue create --title "Build #${{ github.run_number }} Failure Log" --body-file failure_snippet.txt || true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Prepare APKs for release
         run: |
