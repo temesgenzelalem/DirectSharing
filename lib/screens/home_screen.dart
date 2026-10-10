@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../services/nearby_service.dart';
-import '../services/transfer_service.dart';
 import 'send_screen.dart';
 import 'receive_screen.dart';
 import 'transfers_screen.dart';

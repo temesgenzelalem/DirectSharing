@@ -49,13 +49,14 @@ flutter pub get
 flutter run
 ```
 
-### 4. Build APK
-```bash
-flutter build apk --release
-```
-APK will be at: build/app/outputs/flutter-apk/app-release.apk
+## Download & Install APK
 
-## Requirements
+Every commit automatically builds the APK in the cloud using GitHub Actions. You don't need to build it on your PC!
+
+- 📥 **Download APK:** [GitHub Releases](https://github.com/temesgenzelalem/DirectSharing/releases)
+- ⚙️ **Build Status & Artifacts:** [GitHub Actions](https://github.com/temesgenzelalem/DirectSharing/actions)
+
+## Setup Instructions (For Local Development)
 - Android 6.0+ (API 23+)
 - WiFi Direct support (all modern Android phones)
 - Two Android phones to test
