@@ -65,39 +65,30 @@ jobs:
         run: flutter test || true
 
       - name: Build Android Release APK
-        id: build_apk
-        continue-on-error: true
         run: |
-          flutter build apk --release --build-name=1.0.0 --build-number=${{ github.run_number }} --verbose 2>&1 | tee build_output.log
-
-      - name: Report and push error log on failure
-        if: steps.build_apk.outcome != 'success'
-        run: |
-          echo "=== LAST 200 LINES OF BUILD OUTPUT ==="
-          tail -n 200 build_output.log
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git checkout --orphan build-failure-log
-          git rm -rf . || true
-          tail -n 1000 build_output.log > BUILD_ERROR.txt
-          git add BUILD_ERROR.txt
-          git commit -m "Build error log #${{ github.run_number }}"
-          git push origin build-failure-log --force
-          exit 1
+          flutter build apk --release --build-name=1.0.0 --build-number=${{ github.run_number }}
 
       - name: Prepare APKs for release
         run: |
-          cp build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/DirectShare-latest.apk
-          cp build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/DirectShare-v1.0.0-${{ github.run_number }}.apk
+          echo "Listing all generated APKs:"
+          find . -name "*.apk"
+          APK_FILE=$(find . -name "*release*.apk" | head -n 1)
+          if [ -z "$APK_FILE" ]; then
+            echo "ERROR: No release APK found!"
+            exit 1
+          fi
+          echo "Using APK: $APK_FILE"
+          mkdir -p dist
+          cp "$APK_FILE" dist/app-release.apk
+          cp "$APK_FILE" dist/DirectShare-latest.apk
+          cp "$APK_FILE" "dist/DirectShare-v1.0.0-${{ github.run_number }}.apk"
+          ls -la dist/
 
       - name: Upload APK as Workflow Artifact
         uses: actions/upload-artifact@v4
         with:
           name: DirectShare-APK-build-${{ github.run_number }}
-          path: |
-            build/app/outputs/flutter-apk/app-release.apk
-            build/app/outputs/flutter-apk/DirectShare-latest.apk
-            build/app/outputs/flutter-apk/DirectShare-v1.0.0-${{ github.run_number }}.apk
+          path: dist/*.apk
           retention-days: 30
 
       - name: Determine Release Tag and Name
@@ -130,8 +121,8 @@ jobs:
             2. Tap the downloaded file to install.
             3. If Android displays a prompt, enable **"Install unknown apps"** for your browser or file manager.
           files: |
-            build/app/outputs/flutter-apk/DirectShare-latest.apk
-            build/app/outputs/flutter-apk/DirectShare-v1.0.0-${{ github.run_number }}.apk
+            dist/DirectShare-latest.apk
+            dist/DirectShare-v1.0.0-${{ github.run_number }}.apk
           draft: false
           prerelease: false
           make_latest: true
