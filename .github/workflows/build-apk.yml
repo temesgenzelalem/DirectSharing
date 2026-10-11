@@ -66,15 +66,18 @@ jobs:
         run: flutter test || true
 
       - name: Build Android Release APK
-        id: build_apk
         run: |
-          flutter build apk --release --build-name=1.0.0 --build-number=${{ github.run_number }} --verbose 2>&1 | tee build_output.log
-
-      - name: Report failure to GitHub Issue
-        if: failure()
-        run: |
-          tail -n 80 build_output.log > failure_snippet.txt
-          gh issue create --title "Build #${{ github.run_number }} Failure Log" --body-file failure_snippet.txt || true
+          set -e
+          echo "Starting Flutter release APK build..."
+          if ! flutter build apk --release --build-name=1.0.0 --build-number=${{ github.run_number }} > build_output.log 2>&1; then
+            echo "::error::Flutter build apk failed!"
+            echo "=== LAST 150 LINES OF BUILD LOG ==="
+            tail -n 150 build_output.log
+            tail -n 80 build_output.log > failure_snippet.txt
+            gh issue create --title "Build #${{ github.run_number }} Failure Log" --body-file failure_snippet.txt || true
+            exit 1
+          fi
+          echo "Flutter build apk completed successfully!"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
