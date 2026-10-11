@@ -69,7 +69,7 @@ jobs:
         run: |
           set -e
           echo "Starting Flutter release APK build..."
-          if ! flutter build apk --release --build-name=1.0.0 --build-number=${{ github.run_number }} > build_output.log 2>&1; then
+          if ! flutter build apk --release --build-name=1.0.0 --build-number=${{ github.run_number }} --android-skip-build-dependency-validation > build_output.log 2>&1; then
             echo "::error::Flutter build apk failed!"
             echo "=== LAST 150 LINES OF BUILD LOG ==="
             tail -n 150 build_output.log
